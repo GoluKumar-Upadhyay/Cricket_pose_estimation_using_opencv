@@ -1,0 +1,14 @@
+{
+    "Footwork": 8,
+    "Head Position": 8,
+    "Swing Control": 8,
+    "Balance": 5,
+    "Follow-through": 7,
+    "Feedback": {
+        "Footwork": "Good alignment",
+        "Head Position": "Head over front knee \u2705",
+        "Swing Control": "Elbow angle sufficient",
+        "Balance": "Adjust posture",
+        "Follow-through": "Follow-through reasonable"
+    }
+}
