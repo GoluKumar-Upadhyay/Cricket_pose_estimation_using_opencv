@@ -1,8 +1,7 @@
-pip==24.0
 setuptools==68.2.2
 wheel==0.41.2
-opencv-python
-mediapipe==0.10.14
-numpy
-pytube
-json5
+opencv-python==4.9.0.80
+mediapipe==0.10.9
+numpy==1.26.4
+pytube==15.0.0
+json5==0.9.25
