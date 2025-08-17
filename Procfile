@@ -1,2 +1,2 @@
-web: gunicorn cricket_drive:app
+web: gunicorn cover_drive:app
 
