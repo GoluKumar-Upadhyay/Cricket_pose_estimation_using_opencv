@@ -8,7 +8,11 @@ import os
 from flask import Flask, render_template, request, jsonify, send_from_directory
 
 app = Flask(__name__)
-os.makedirs("output", exist_ok=True)
+
+# --------- Paths ---------
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+OUTPUT_DIR = os.path.join(BASE_DIR, "output")
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # --------- Helper Functions ---------
 def angle_between(a, b, c):
@@ -69,7 +73,7 @@ def analyze_video(video_path):
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-    out_path = 'output/annotated_video.mp4'
+    out_path = os.path.join(OUTPUT_DIR, 'annotated_video.mp4')
     out = cv2.VideoWriter(out_path, fourcc, fps, (width, height))
 
     mp_pose = mp.solutions.pose
@@ -116,7 +120,7 @@ def analyze_video(video_path):
         }
     }
 
-    with open("output/evaluation.json", "w") as f:
+    with open(os.path.join(OUTPUT_DIR, "evaluation.json"), "w") as f:
         json.dump(evaluation, f, indent=4)
 
     return evaluation
@@ -132,7 +136,7 @@ def analyze():
         return jsonify({"error": "No video uploaded"}), 400
 
     video_file = request.files['video']
-    video_path = os.path.join("output", video_file.filename)
+    video_path = os.path.join(OUTPUT_DIR, video_file.filename)
     video_file.save(video_path)
 
     evaluation = analyze_video(video_path)
@@ -140,8 +144,9 @@ def analyze():
 
 @app.route('/output/<filename>')
 def output_file(filename):
-    return send_from_directory('output', filename)
+    return send_from_directory(OUTPUT_DIR, filename)
 
 # --------- Run Flask App ---------
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=True, host='0.0.0.0', port=port)
