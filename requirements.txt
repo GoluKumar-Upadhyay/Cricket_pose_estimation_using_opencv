@@ -4,3 +4,4 @@ numpy==1.26.4
 pytube==15.0.0
 json5==0.9.25
 flask
+gunicorn
